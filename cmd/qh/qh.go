@@ -16,6 +16,7 @@ func printUsage() {
 	fmt.Println("  add <domain> <ip or domain>")
 	fmt.Println("  rm <domain>")
 	fmt.Println("  tmp <domain> <ip or domain>")
+	fmt.Println("  <domain> <ip or domain>")
 }
 
 func main() {
@@ -61,6 +62,14 @@ func main() {
 			log.Fatal("usage: qh tmp <domain> <ip or domain>")
 		}
 		domain, ip := args[0], args[1]
+		if err := hosts.AddTemp(domain, ip, hostsFile); err != nil {
+			log.Fatal(err)
+		}
+	default:
+		if len(args) != 1 {
+			log.Fatal("usage: qh <domain> <ip or domain>")
+		}
+		domain, ip := cmd, args[0]
 		if err := hosts.AddTemp(domain, ip, hostsFile); err != nil {
 			log.Fatal(err)
 		}
