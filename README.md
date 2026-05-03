@@ -8,11 +8,40 @@ the file.
 
 ## Install
 
+### From a release (recommended)
+
+Prebuilt binaries for darwin / linux / windows on amd64 and arm64 are
+attached to every tagged release at
+https://github.com/robertlestak/qh/releases.
+
+```bash
+# pick the asset for your platform
+curl -L -o qh https://github.com/robertlestak/qh/releases/latest/download/qh_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+
+# verify it
+curl -L -o qh.sha256 https://github.com/robertlestak/qh/releases/latest/download/qh_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').sha256
+shasum -a 256 -c qh.sha256
+
+# install
+chmod +x qh
+sudo mv qh /usr/local/bin/qh
+```
+
+A combined `SHA256SUMS` file covering every asset is published alongside
+the per-binary `.sha256` files.
+
+### With go install
+
 ```bash
 go install github.com/robertlestak/qh/cmd/qh@latest
 ```
 
-Or build from source: `make` (produces a `qh` binary in `./bin`).
+### From source
+
+```bash
+make            # builds all six platforms into ./bin
+go build -o qh ./cmd/qh   # just for the host platform
+```
 
 ## Usage
 
